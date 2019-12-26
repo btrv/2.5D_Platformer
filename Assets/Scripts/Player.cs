@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
 
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         if (_uiManager == null)
-            Debug.Log("UI manager is NULL");
+        Debug.Log("UI manager is NULL");
     }
 
     void Update()
