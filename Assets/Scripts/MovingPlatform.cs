@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MovingPlatform : MonoBehaviour
 {
@@ -8,7 +6,7 @@ public class MovingPlatform : MonoBehaviour
     [SerializeField]    private float _speed = 2;
                         private bool _switch = false;
 
-    void Update()
+    void FixedUpdate()
     {
         if(_switch == false)
         {
@@ -23,5 +21,23 @@ public class MovingPlatform : MonoBehaviour
             _switch = true;
         else if (transform.position == _pointA.position)
             _switch = false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            Debug.Log("Collision");
+            other.transform.SetParent(transform);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Player")
+        {
+            Debug.Log("Collision exit");
+            other.transform.parent = null;
+        }
     }
 }

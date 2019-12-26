@@ -5,21 +5,30 @@ public class Player : MonoBehaviour
     [SerializeField] private float _speed = 10.0f;
     [SerializeField] private float _gravity = 1.0f;
     [SerializeField] private float _jumpHeight = 20f;
+    [SerializeField] private int _lives = 3;
 
     private int _coinsCollected = 0;
     private CharacterController _controller;
     private float m_yVelosity;
     private bool _canDoubleJump = false;
     private UIManager _uiManager;
+    private GameManager _gameManager;
+    private Vector3 _startPosition = new Vector3 (0, 1.8f, 0);
 
 
     void Start()
     {
         _controller = GetComponent<CharacterController>();
 
+        _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
+        if (_gameManager == null)
+            Debug.Log("GM is NULL");
+
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         if (_uiManager == null)
-        Debug.Log("UI manager is NULL");
+            Debug.Log("UI manager is NULL");
+
+        _uiManager.UpdateLivesUI(_lives);
     }
 
     void Update()
@@ -52,11 +61,28 @@ public class Player : MonoBehaviour
         velosity.y = m_yVelosity;
 
         _controller.Move(velosity * Time.deltaTime);
+
+        LooseLife();
     }
 
     public void AddCoin()
     {
         _coinsCollected += 1;
         _uiManager.UpdateCoinsUI(_coinsCollected);
+    }
+
+    void LooseLife()
+    {
+        if(transform.position.y < -7f)
+        {
+            _lives--;
+            _uiManager.UpdateLivesUI(_lives);
+            transform.position = _startPosition;
+        }
+
+        if(_lives < 1)
+        {
+            _gameManager.Restart();
+        }
     }
 }
