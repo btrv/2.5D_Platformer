@@ -16,7 +16,7 @@ ExportedObj/
 .consulo/
 *.csproj
 *.unityproj
-*.sln
+# *.sln
 *.suo
 *.tmp
 *.user
@@ -28,8 +28,8 @@ ExportedObj/
 *.opendb
 
 # Unity3D generated meta files
-*.pidb.meta
-*.pdb.meta
+# *.pidb.meta
+# *.pdb.meta
 
 # Unity3D Generated File On Crash Reports
 sysinfo.txt

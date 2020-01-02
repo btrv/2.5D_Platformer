@@ -7,17 +7,22 @@ public class Player : MonoBehaviour
     [SerializeField] private float _jumpHeight = 20f;
     [SerializeField] private int _lives = 3;
 
+    private Transform _spawnPoint;
     private int _coinsCollected = 0;
     private CharacterController _controller;
     private float m_yVelosity;
     private bool _canDoubleJump = false;
     private UIManager _uiManager;
     private GameManager _gameManager;
-    private Vector3 _startPosition = new Vector3 (0, 1.8f, 0);
+
+    // private Vector3 _startPosition = new Vector3 (0, 1.8f, 0);
 
 
     void Start()
     {
+        _spawnPoint = GameObject.Find("Spawn_Point").GetComponent<Transform>();
+        transform.position = _spawnPoint.transform.position;
+
         _controller = GetComponent<CharacterController>();
 
         _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
@@ -62,7 +67,7 @@ public class Player : MonoBehaviour
 
         _controller.Move(velosity * Time.deltaTime);
 
-        LooseLife();
+        // LooseLife();
     }
 
     public void AddCoin()
@@ -71,18 +76,34 @@ public class Player : MonoBehaviour
         _uiManager.UpdateCoinsUI(_coinsCollected);
     }
 
-    void LooseLife()
+    // void LooseLife()
+    // {
+    //     if(transform.position.y < -7f)
+    //     {
+    //         _lives--;
+    //         _uiManager.UpdateLivesUI(_lives);
+    //         transform.position = _startPosition;
+    //     }
+
+    //     if(_lives < 1)
+    //     {
+    //         _gameManager.Restart();
+    //     }
+    // }
+
+    private void OnTriggerEnter(Collider other)
     {
-        if(transform.position.y < -7f)
+        if(other.tag == "Floor")
         {
             _lives--;
             _uiManager.UpdateLivesUI(_lives);
-            transform.position = _startPosition;
+            transform.position = _spawnPoint.transform.position;
         }
 
         if(_lives < 1)
         {
             _gameManager.Restart();
         }
+        
     }
 }
