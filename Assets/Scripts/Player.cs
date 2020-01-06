@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class Player : MonoBehaviour
 {
@@ -96,14 +97,20 @@ public class Player : MonoBehaviour
         if(other.tag == "Floor")
         {
             _lives--;
+            Debug.Log("Lives - 1");
             _uiManager.UpdateLivesUI(_lives);
-            transform.position = _spawnPoint.transform.position;
+            StartCoroutine(ResetPositionAtSec());
         }
 
         if(_lives < 1)
         {
             _gameManager.Restart();
         }
-        
+    }
+
+    IEnumerator ResetPositionAtSec()
+    {
+        yield return new WaitForSeconds (0.2f);
+        this.transform.position = _spawnPoint.transform.position;
     }
 }
