@@ -80,7 +80,7 @@ public class Player : MonoBehaviour
             transform.position = _startPosition;
         }
 
-        if(_lives < 1)
+        if(_lives < 0)
         {
             _gameManager.Restart();
         }
