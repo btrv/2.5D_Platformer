@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -6,23 +7,24 @@ public class Player : MonoBehaviour
     [SerializeField] private float _gravity = 1.0f;
     [SerializeField] private float _jumpHeight = 20f;
     [SerializeField] private int _lives = 3;
+    [SerializeField] private GameObject _startPoint;
 
+    private Transform _spawnPoint;
     private int _coinsCollected = 0;
     private CharacterController _controller;
     private float m_yVelosity;
     private bool _canDoubleJump = false;
     private UIManager _uiManager;
-    private GameManager _gameManager;
-    private Vector3 _startPosition = new Vector3 (0, 1.8f, 0);
+
+    // private Vector3 _startPosition = new Vector3 (0, 1.8f, 0);
 
 
     void Start()
     {
-        _controller = GetComponent<CharacterController>();
+        // _spawnPoint = GameObject.Find("Spawn_Point").GetComponent<Transform>();
+        transform.position = _startPoint.transform.position;
 
-        _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
-        if (_gameManager == null)
-            Debug.Log("GM is NULL");
+        _controller = GetComponent<CharacterController>();
 
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         if (_uiManager == null)
@@ -51,7 +53,7 @@ public class Player : MonoBehaviour
             // current m_yVelosity += jumpHeight
             if (Input.GetKeyDown(KeyCode.Space) && _canDoubleJump == true)
             {
-                m_yVelosity += _jumpHeight * 1.3f;
+                m_yVelosity += _jumpHeight * 1.25f;
                 _canDoubleJump = false;
             }
               
@@ -62,7 +64,7 @@ public class Player : MonoBehaviour
 
         _controller.Move(velosity * Time.deltaTime);
 
-        LooseLife();
+        // LooseLife();
     }
 
     public void AddCoin()
@@ -71,18 +73,38 @@ public class Player : MonoBehaviour
         _uiManager.UpdateCoinsUI(_coinsCollected);
     }
 
-    void LooseLife()
+    public void LooseLife()
     {
-        if(transform.position.y < -7f)
-        {
-            _lives--;
-            _uiManager.UpdateLivesUI(_lives);
-            transform.position = _startPosition;
-        }
+        _lives--;
+        Debug.Log("Lives - 1");
+        _uiManager.UpdateLivesUI(_lives);
 
-        if(_lives < 0)
+        if(_lives < 1)
         {
-            _gameManager.Restart();
+            SceneManager.LoadScene(0);
         }
     }
+
+    // private void OnTriggerEnter(Collider other)
+    // {
+    //     if(other.tag == "Floor")
+    //     {
+    //         _lives--;
+    //         Debug.Log("Lives - 1");
+    //         _uiManager.UpdateLivesUI(_lives);
+    //         StartCoroutine(ResetPositionAtSec());
+    //     }
+
+    //     if(_lives < 1)
+    //     {
+    //         // _gameManager.Restart();
+    //         SceneManager.LoadScene(0);
+    //     }
+    // }
+
+    // IEnumerator ResetPositionAtSec()
+    // {
+    //     yield return new WaitForSeconds (0.1f);
+    //     this.transform.position = _spawnPoint.transform.position;
+    // }
 }

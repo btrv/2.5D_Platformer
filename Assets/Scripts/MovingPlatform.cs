@@ -28,7 +28,8 @@ public class MovingPlatform : MonoBehaviour
         if (other.tag == "Player")
         {
             Debug.Log("Collision");
-            other.transform.SetParent(transform);
+            // other.transform.SetParent(transform);
+            other.transform.parent = this.transform;
         }
     }
 
