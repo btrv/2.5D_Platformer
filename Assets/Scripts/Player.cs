@@ -1,10 +1,5 @@
-<<<<<<< HEAD
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-=======
-﻿using System.Collections;
-using UnityEngine;
->>>>>>> 90927c0c222a2d671ab0328c455fd63cdc0b409f
 
 public class Player : MonoBehaviour
 {
@@ -20,25 +15,14 @@ public class Player : MonoBehaviour
     private float m_yVelosity;
     private bool _canDoubleJump = false;
     private UIManager _uiManager;
-<<<<<<< HEAD
-=======
-    private GameManager _gameManager;
->>>>>>> 90927c0c222a2d671ab0328c455fd63cdc0b409f
 
     // private Vector3 _startPosition = new Vector3 (0, 1.8f, 0);
 
 
     void Start()
     {
-<<<<<<< HEAD
         // _spawnPoint = GameObject.Find("Spawn_Point").GetComponent<Transform>();
         transform.position = _startPoint.transform.position;
-=======
-        _spawnPoint = GameObject.Find("Spawn_Point").GetComponent<Transform>();
-        transform.position = _spawnPoint.transform.position;
-
-        _controller = GetComponent<CharacterController>();
->>>>>>> 90927c0c222a2d671ab0328c455fd63cdc0b409f
 
         _controller = GetComponent<CharacterController>();
 
@@ -89,38 +73,11 @@ public class Player : MonoBehaviour
         _uiManager.UpdateCoinsUI(_coinsCollected);
     }
 
-<<<<<<< HEAD
     public void LooseLife()
     {
         _lives--;
         Debug.Log("Lives - 1");
         _uiManager.UpdateLivesUI(_lives);
-=======
-    // void LooseLife()
-    // {
-    //     if(transform.position.y < -7f)
-    //     {
-    //         _lives--;
-    //         _uiManager.UpdateLivesUI(_lives);
-    //         transform.position = _startPosition;
-    //     }
-
-    //     if(_lives < 1)
-    //     {
-    //         _gameManager.Restart();
-    //     }
-    // }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.tag == "Floor")
-        {
-            _lives--;
-            Debug.Log("Lives - 1");
-            _uiManager.UpdateLivesUI(_lives);
-            StartCoroutine(ResetPositionAtSec());
-        }
->>>>>>> 90927c0c222a2d671ab0328c455fd63cdc0b409f
 
         if(_lives < 1)
         {
@@ -128,7 +85,6 @@ public class Player : MonoBehaviour
         }
     }
 
-<<<<<<< HEAD
     // private void OnTriggerEnter(Collider other)
     // {
     //     if(other.tag == "Floor")
@@ -151,11 +107,4 @@ public class Player : MonoBehaviour
     //     yield return new WaitForSeconds (0.1f);
     //     this.transform.position = _spawnPoint.transform.position;
     // }
-=======
-    IEnumerator ResetPositionAtSec()
-    {
-        yield return new WaitForSeconds (0.2f);
-        this.transform.position = _spawnPoint.transform.position;
-    }
->>>>>>> 90927c0c222a2d671ab0328c455fd63cdc0b409f
 }
